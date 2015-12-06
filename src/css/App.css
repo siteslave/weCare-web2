@@ -19,3 +19,8 @@
 body {
   font-size: 14px;
 }
+
+.progress-container--linear.progress-container--primary .progress-linear__background, .progress-container--linear.progress-container--primary .progress-linear__bar {
+  background-color: #D32F2F;
+;
+}

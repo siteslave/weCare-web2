@@ -40,7 +40,9 @@ fs.access(configFile, fs.W_OK && fs.R_OK, (err) => {
         url: 'http://localhost',
         key: crypted,
         hospcode: '00000'
-      }
+      },
+      start_date: '2015-10-01',
+      end_date: '2016-09-30'
     };
 
     fse.writeJsonSync(configFile, defaultConfig);

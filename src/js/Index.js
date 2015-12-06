@@ -9,15 +9,21 @@
       'app.controllers.Typearea',
       'app.controllers.Emr',
       'app.controllers.Uploads',
-      'app.services.Emr'
+      'app.services.Emr',
+      'app.controllers.Dashboard'
 
     ])
     .config(($stateProvider, $urlRouterProvider) => {
       $urlRouterProvider.otherwise("/");
 
       $stateProvider
+        .state('dashboard', {
+          url: '/',
+          templateUrl: '../partials/Dashboard.html',
+          controller: 'DashCtrl'
+        })
         .state('main', {
-          url: "/",
+          url: "/main",
           templateUrl: '../partials/Main.html',
           controller: 'MainCtrl'
         })

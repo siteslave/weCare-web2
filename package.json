@@ -1,6 +1,6 @@
 {
   "name": "weCare",
-  "version": "1.0.0",
+  "version": "1.0.0-beta",
   "description": "weCare",
   "main": "./app/Main.js",
   "repository": {

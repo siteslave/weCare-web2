@@ -37,6 +37,13 @@
               div(flex-item="6")
                   lx-text-field(label="Key", fixed-label="true", icon="key")
                     input(type="text", ng-model="config.cloud.key", lx-tooltip="Key ของ Cloud Server")
+            div(flex-container="row", flex-gutter="24")
+              div(flex-item="6")
+                lx-date-picker(model="config.start_date", label="วันเริ่มต้นปีงบ",
+                locale="th", fixed-label="true", icon="calendar")
+              div(flex-item="6")
+                lx-date-picker(model="config.end_date", label="วันสิ้นสุดปีงบ",
+                locale="th", fixed-label="true", icon="calendar")
         br
         .card__actions
           button.btn.btn--l.btn--blue.btn--raised(lx-ripple, ng-click="save()") Save

@@ -1,0 +1,587 @@
+#progress
+div.padding-top-10
+div(flex-container="row")
+  div(class="card p+")
+    .data-table-container
+      header.data-table-header
+        .data-table-header__label
+          span.fs-title.tc-red-500
+            i.mdi.mdi-alert-circle
+            | &nbsp; รายชื่อผู้ป่วยโรคที่ต้องเฝ้าระวังเร่งด่วน ({{ personSurveillance.risk.length | number }})
+
+        .data-table-header__actions
+          lx-date-picker(model="surveillanceDate", label="วันที่ให้บริการ",
+          locale="th", fixed-label="true", icon="calendar")
+      table.data-table
+        thead
+          tr
+            th(style="width: 10%") วันที่
+            th(style="width: 20%") ชื่อ - สกุล
+            th(style="width: 30%") ที่อยู่
+            th(style="width: 35%") วินิจฉัยโรค
+            th(style="width: 5%")
+        tbody
+          tr(ng-if="!personSurveillance.risk.length")
+            td(colspan="6") ไม่พบรายการ
+          tr(ng-repeat="p in personSurveillance.risk", ng-if="personSurveillance.risk.length")
+            td(style="width: 10%") {{ p.vstdate }}
+            td(style="width: 20%") {{ p.fullname }}
+            td(style="width: 30%") {{ p.address }}
+            td(style="width: 35%") {{ p.diag_code }} {{ p.diag_name }}
+            td(style="width: 5%; text-align: center;")
+              lx-dropdown(position="right", from-top="true")
+                button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                  i.mdi.mdi-dots-vertical
+
+                lx-dropdown-menu
+                  ul
+                    li
+                      a.dropdown-link(ng-click="getSurveillanceDetail(p.vn)")
+                        i.mdi.mdi-content-copy
+                        span ดูข้อมูลการรับบริการ
+
+div.padding-top-10
+div(flex-container="row")
+  div(class="card p+")
+    .data-table-container
+      header.data-table-header
+        .data-table-header__label
+          span.fs-title.tc-blue-500
+            i.mdi.mdi-account
+            | &nbsp; รายชื่อผู้ป่วยโรคที่ต้องเฝ้าระวังทั่วไป ({{ personSurveillance.nonRisk.length | number }})
+      table.data-table
+        thead
+          tr
+            th(style="width: 10%") วันที่
+            th(style="width: 20%") ชื่อ - สกุล
+            th(style="width: 30%") ที่อยู่
+            th(style="width: 35%") วินิจฉัยโรค
+            th(style="width: 5%")
+        tbody
+          tr(ng-if="!personSurveillance.nonRisk.length")
+            td(colspan="6") ไม่พบรายการ
+          tr(ng-repeat="p in personSurveillance.nonRisk", ng-if="personSurveillance.nonRisk.length")
+            td(style="width: 10%") {{ p.vstdate }}
+            td(style="width: 20%") {{ p.fullname }}
+            td(style="width: 30%") {{ p.address }}
+            td(style="width: 35%") {{ p.diag_code }} {{ p.diag_name }}
+            td(style="width: 5%; text-align: center;")
+              lx-dropdown(position="right", from-top="true")
+                button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                  i.mdi.mdi-dots-vertical
+
+                lx-dropdown-menu
+                  ul
+                    li
+                      a.dropdown-link(ng-click="getSurveillanceDetail(p.vn)")
+                        i.mdi.mdi-content-copy
+                        span ดูข้อมูลการรับบริการ
+div(flex-container="row", flex-gutter="8")
+  div(flex-item="7")
+    div.padding-top-10
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            span.fs-title
+              i.mdi.mdi-account
+              | &nbsp; คุณภาพการให้บริการฝากครรภ์ ({{personAnc.length | number}})
+        table.data-table
+          thead
+            tr
+              th(style="width: 35%") ชื่อ - สกุล
+              th(style="width: 10%") คุณภาพ
+              //th(style="width: 10%") ครรภ์ที่
+              th(style="width: 10%") ครั้งที่ 1
+              th(style="width: 10%") ครั้งที่ 2
+              th(style="width: 10%") ครั้งที่ 3
+              th(style="width: 10%") ครั้งที่ 4
+              th(style="width: 10%") ครั้งที่ 5
+              th(style="width: 5%")
+
+          tbody
+            tr(ng-if="!personAnc.length")
+              td(colspan="8") ไม่พบรายการ
+            tr(ng-repeat="p in personAnc", ng-if="personAnc.length")
+              td(style="width: 35%") {{ p.fullname }}
+              td(style="width: 10%")
+                i.mdi.mdi-check(ng-if="p.isQc", ng-class="{'tc-green-500': p.isQc }")
+                i.mdi.mdi-close(ng-if="!p.isQc", ng-class="{'tc-red-500': !p.isQc }")
+
+              //td(style="width: 10%") {{ p.preg_no }}
+              td(style="width: 10%; text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date1", ng-class="{'tc-red-500': !p.isQc1, 'tc-green-500': p.isQc1 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date1")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date2", ng-class="{'tc-red-500': !p.isQc2, 'tc-green-500': p.isQc2 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date2")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date3", ng-class="{'tc-red-500': !p.isQc3, 'tc-green-500': p.isQc3 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date3")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date4", ng-class="{'tc-red-500': !p.isQc4, 'tc-green-500': p.isQc4 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date4")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date5", ng-class="{'tc-red-500': !p.isQc5, 'tc-green-500': p.isQc5 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date5")
+              td(style="width: 5%")
+                lx-dropdown(position="right", from-top="true")
+                  button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                    i.mdi.mdi-dots-vertical
+
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link(ng-click="getCloudAnc(p.cid, p.preg_no)")
+                          i.mdi.mdi-eye
+                          span ตรวจสอบประวัติฝากครรภ์
+    div.padding-top-10
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            span.fs-title
+              i.mdi.mdi-account
+              | &nbsp; คุณภาพการให้บริการหลังคลอด ({{ personLabor.length | number }})
+        table.data-table
+          thead
+            tr
+              th(style="width: 30%") ชื่อ - สกุล
+              th(style="width: 10%; text-align: center;") คุณภาพ
+              th(style="width: 15%; text-align: center;") วันที่คลอด
+              th(style="width: 10%; text-align: center;") ครั้งที่ 1
+              th(style="width: 10%; text-align: center;") ครั้งที่ 2
+              th(style="width: 10%; text-align: center;") ครั้งที่ 3
+              th(style="width: 10%; text-align: center;") ส่งออก
+              th(style="width: 5%; text-align: center;")
+
+          tbody
+            tr(ng-repeat="p in personLabor")
+              td(style="width: 30%") {{ p.fullname }}
+              td(style="width: 10%; text-align: center;")
+                i.mdi.mdi-check(ng-if="p.isQc", ng-class="{'tc-green-500': p.isQc }")
+                i.mdi.mdi-close(ng-if="!p.isQc", ng-class="{'tc-red-500': !p.isQc }")
+              td(style="width: 15%; text-align: center;") {{p.labor_date}}
+              td(style="width: 10%; text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date1", ng-class="{'tc-red-500': !p.isQc1, 'tc-green-500': p.isQc1 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date1")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date2", ng-class="{'tc-red-500': !p.isQc2, 'tc-green-500': p.isQc2 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date2")
+              td(style="width: 10%, text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.date3", ng-class="{'tc-red-500': !p.isQc3, 'tc-green-500': p.isQc3 }")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.date3")
+              td(style="width: 10%; text-align: center;")
+                i.mdi.mdi-checkbox-marked-outline(ng-if="p.force_complete_export")
+                i.mdi.mdi-checkbox-blank-outline(ng-if="!p.force_complete_export")
+              td(style="width: 5%; text-align: center;")
+                lx-dropdown(position="right", from-top="true")
+                  button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                    i.mdi.mdi-dots-vertical
+
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link(ng-click="getCloudPostnatal(p.cid, p.preg_no)")
+                          i.mdi.mdi-eye
+                          span ตรวจสอบข้อมูลการดูแลหลังคลอด
+
+  div(flex-item="5")
+    div.padding-top-10
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            span.fs-title
+              i.mdi.mdi-account
+              | &nbsp; แม่คลอดที่ รพ. ({{perosonCloudLabor.length | number}})
+        table.data-table
+          thead
+            tr
+              th(style="width: 70%") ชื่อ - สกุล
+              th(style="width: 10%") อายุ(ปี)
+              th(style="width: 10%") ครรภ์ที่
+              th(style="width: 15%") วันที่คลอด
+              th(style="width: 10%")
+          tbody
+            tr(ng-repeat="p in perosonCloudLabor")
+              td(style="width: 70%") {{ p.fullname }}
+              td(style="width: 10%") {{ p.age }}
+              td(style="width: 10%") {{ p.preg_no }}
+              td(style="width: 15%") {{ p.labor_date }}
+              td(style="width: 10%")
+                lx-dropdown(position="right", from-top="true")
+                  button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                    i.mdi.mdi-dots-vertical
+
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link(ng-click="getLaborDetail(p.person_id)")
+                          i.mdi.mdi-content-copy
+                          span ดูข้อมูลการคลอด
+    div.padding-top-10
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            span.fs-title
+              i.mdi.mdi-account
+              | &nbsp; ครบฝากครรภ์ (ในเดือน) ({{personAncInMonth.length | number}} คน)
+        table.data-table
+          thead
+            tr
+              th(style="width: 90%") ชื่อ - สกุล
+              th(style="width: 10%")
+          tbody
+            tr(ng-if="!personAncInMonth.length")
+              td(colspan="2") ไม่พบรายการ
+            tr(ng-repeat="p in personAncInMonth", ng-if="personAncInMonth.length")
+              td(style="width: 90%") {{ p.fullname }}
+              td(style="width: 10%")
+                lx-dropdown(position="right", from-top="true")
+                  button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                    i.mdi.mdi-dots-vertical
+
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link(ng-click="showAncCalendar(p)")
+                          i.mdi.mdi-eye
+                          span ตารางการฝากครรภ์
+    div.padding-top-10
+      div(class="card p+")
+        .data-table-container
+          header.data-table-header
+            .data-table-header__label
+              span.fs-title
+                i.mdi.mdi-account
+                | &nbsp; ครบเยี่ยมหลังคลอด (ในเดือน) ({{personLaborCareInMonth.length | number}} คน)
+          table.data-table
+            thead
+              tr
+                th(style="width: 90%") ชื่อ - สกุล
+                th(style="width: 10%")
+            tbody
+              tr(ng-if="!personLaborCareInMonth.length")
+                td(colspan="2") ไม่พบรายการ
+              tr(ng-repeat="p in personLaborCareInMonth", ng-if="personLaborCareInMonth.length")
+                td(style="width: 90%") {{ p.fullname }}
+                td(style="width: 10%")
+                  lx-dropdown(position="right", from-top="true")
+                    button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                      i.mdi.mdi-dots-vertical
+
+                    lx-dropdown-menu
+                      ul
+                        li
+                          a.dropdown-link(ng-click="showPostnatalCalendar(p)")
+                            i.mdi.mdi-eye
+                            span ตารางการเยี่ยมหลังคลอด
+
+lx-dialog.dialog.dialog--l#mdlSurveillanceDetail(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title รายละเอียดการเข้ารับบริการ
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    lx-tabs(links-tc="light", links-bgc="indigo-500", indicator="pink-500", no-divider="true", layout="inline")
+      lx-tab(heading="ข้อมูลคัดกรองเบื้องต้น")
+        div(class="p++")
+          div(flex-container="row", flex-gutter="24")
+            div(flex-item="2")
+              lx-text-field(label="วันที่", disabled="true")
+                input(type="text", ng-model="screen.vstdate", ng-disabled="true")
+            div(flex-item="2")
+              lx-text-field(label="เวลา", disabled="true")
+                input(type="text", ng-model="screen.vsttime", ng-disabled="true")
+            div(flex-item="8")
+              lx-text-field(label="แผนก", disabled="true")
+                input(type="text", ng-model="screen.department", ng-disabled="true")
+
+          div(flex-container="row", flex-gutter="24")
+            div(flex-item="12")
+              lx-text-field(label="อาการแรกรับ (CC)", disabled="true")
+                input(type="text", ng-model="screen.cc", ng-disabled="true")
+          div(flex-container="row", flex-gutter="24")
+            div(flex-item="7")
+              lx-text-field(label="สิทธิการรักษา", disabled="true")
+                input(type="text", ng-model="screen.pttype_name", ng-disabled="true")
+            div(flex-item="5")
+              lx-text-field(label="รหัส", disabled="true")
+                input(type="text", ng-model="screen.pttypeno", ng-disabled="true")
+          div(flex-container="row", flex-gutter="24")
+            div(flex-item="2")
+              lx-text-field(label="ความดัน", disabled="true")
+                input(type="text", ng-model="screen.bp", ng-disabled="true")
+            div(flex-item="2")
+              lx-text-field(label="อุณหภูมิ", disabled="true")
+                input(type="text", ng-model="screen.temperature", ng-disabled="true")
+            div(flex-item="2")
+              lx-text-field(label="น้ำหนัก (กก.)", disabled="true")
+                input(type="text", ng-model="screen.bw", ng-disabled="true")
+            div(flex-item="2")
+              lx-text-field(label="ส่วนสูง (ซม.)", disabled="true")
+                input(type="text", ng-model="screen.height", ng-disabled="true")
+
+      lx-tab(heading="การวินิจฉัยโรค")
+        .data-table-container
+          table.data-table
+            thead
+              tr
+                th(style="width: 10%") รหัส
+                th(style="width: 60%") ชื่อการวินิจฉัย
+                th(style="width: 30%") ประเภท
+            tbody
+              tr(ng-if="!diags.length")
+                td(colspan="3") ไม่พบรายการ
+              tr(ng-repeat="d in diags", ng-if="diags.length")
+                td(style="width: 10%") {{ d.icd10 }}
+                td(style="width: 60%") {{ d.icd_name }}
+                td(style="width: 30%") {{ d.diagtype_name }}
+
+      lx-tab(heading="การให้ยาและเวชภัณฑ์")
+        .data-table-container
+          table.data-table
+            thead
+              tr
+                th(style="width: 45%") ชื่อยา
+                th(style="width: 10%") จำนวน
+                th(style="width: 45%") วิธีการใช้
+            tbody
+              tr(ng-if="!drugs.length")
+                td(colspan="3") ไม่พบรายการ
+              tr(ng-repeat="d in drugs", ng-if="drugs.length")
+                td(style="width: 45%") {{ d.drug_name }}
+                td(style="width: 10%") {{ d.qty }}
+                td(style="width: 45%") {{ d.drug_usage }}
+      lx-tab(heading="ผลตรวจทางห้องปฎิบัติการ")
+        .data-table-container
+          table.data-table
+            thead
+              tr
+                th(style="width: 15%") Order Number
+                th(style="width: 60%") ชื่อ LAB
+                th(style="width: 15%") ผล
+                th(style="width: 10%") ยืนยัน
+            tbody
+              tr(ng-if="!labs.length")
+                td(colspan="4") ไม่พบรายการ
+              tr(ng-repeat="l in labs", ng-if="labs.length")
+                td(style="width: 15%") {{ l.lab_order_number }}
+                td(style="width: 60%") {{ l.lab_items_name }}
+                td(style="width: 15%") {{ l.lab_order_result }}
+                td(style="width: 10%") {{ l.confirm }}
+
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง
+
+lx-dialog.dialog.dialog--l#mdlLaborDetail(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title รายละเอียดการคลอด
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    div(class="p++")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="2")
+          lx-text-field(label="ครรภ์ที่", disabled="true")
+            input(type="text", ng-model="laborDetail.preg_no", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="อายุครรภ์(ส.)", disabled="true")
+            input(type="text", ng-model="laborDetail.current_preg_age", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="พบแพท์ครั้งแรก", disabled="true")
+            input(type="text", ng-model="laborDetail.first_doctor_date", ng-disabled="true")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="2")
+          lx-text-field(label="วันที่คลอด", disabled="true")
+            input(type="text", ng-model="laborDetail.labor_date", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="LMP", disabled="true")
+            input(type="text", ng-model="laborDetail.lmp", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="EDC", disabled="true")
+            input(type="text", ng-model="laborDetail.edc", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="เกิดมีชีพ", disabled="true")
+            input(type="text", ng-model="laborDetail.lborn", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="เกิดไร้ชีพ", disabled="true")
+            input(type="text", ng-model="laborDetail.sborn", ng-disabled="true")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="2")
+          lx-text-field(label="รหัส", disabled="true")
+            input(type="text", ng-model="laborDetail.diag_code", ng-disabled="true")
+        div(flex-item="10")
+          lx-text-field(label="ชื่อวินิจฉัย", disabled="true")
+            input(type="text", ng-model="laborDetail.diag_name", ng-disabled="true")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="3")
+          lx-text-field(label="Thalassaemia", disabled="true")
+            input(type="text", ng-model="laborDetail.thalassaemia_result_name", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="มีความเสี่ยง", disabled="true")
+            input(type="text", ng-model="laborDetail.risk", ng-disabled="true")
+        div(flex-item="2")
+          lx-text-field(label="ผล HCT", disabled="true")
+            input(type="text", ng-model="laborDetail.blood_hct_result", ng-disabled="true")
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง
+
+lx-dialog.dialog.dialog--l#mdlAncCalendar(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title ปฏิทินการฝากครรภ์
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    div(class="p++")
+      .data-table-container
+        table.data-table
+          thead
+            tr
+              th(style="width: 10%") ครั้งที่
+              th(style="width: 60%") ระหว่างวันที่
+              th(style="width: 30%") วันที่รับบริการแล้ว
+          tbody
+            tr
+              td(style="width: 10%") 1
+              td(style="width: 60%") ไม่เกิน {{ ancCalendar.date11 | toLongThaiDate }}
+              td(style="width: 30%") {{ ancCalendar.date1 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 2
+              td(style="width: 60%") {{ ancCalendar.date21 | toLongThaiDate}} ถึง {{ ancCalendar.date22 | toLongThaiDate}}
+              td(style="width: 30%") {{ ancCalendar.date2 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 3
+              td(style="width: 60%") {{ ancCalendar.date31 | toLongThaiDate}} - ถึง {{ ancCalendar.date32 | toLongThaiDate}}
+              td(style="width: 30%") {{ ancCalendar.date3 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 4
+              td(style="width: 60%")  {{ ancCalendar.date41 | toLongThaiDate}} - ถึง {{ ancCalendar.date42 | toLongThaiDate}}
+              td(style="width: 30%") {{ ancCalendar.date4 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 5
+              td(style="width: 60%") {{ ancCalendar.date51 | toLongThaiDate}} - ถึง {{ ancCalendar.date52 | toLongThaiDate}}
+              td(style="width: 30%") {{ ancCalendar.date5 | toLongThaiDate }}
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง
+
+
+lx-dialog.dialog.dialog--l#mdlPostnatalCalendar(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title ปฏิทินการดูแลหลังคลอด
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    div(class="p++")
+      .data-table-container
+        table.data-table
+          thead
+            tr
+              th(style="width: 10%") ครั้งที่
+              th(style="width: 60%") ระหว่างวันที่
+              th(style="width: 30%") วันที่รับบริการแล้ว
+          tbody
+            tr
+              td(style="width: 10%") 1
+              td(style="width: 60%") {{ postnatalCalendar.date11 | toLongThaiDate }} ถึง {{ postnatalCalendar.date12 | toLongThaiDate }}
+              td(style="width: 30%") {{ postnatalCalendar.date1 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 2
+              td(style="width: 60%") {{ postnatalCalendar.date21 | toLongThaiDate}} ถึง {{ postnatalCalendar.date22 | toLongThaiDate}}
+              td(style="width: 30%") {{ postnatalCalendar.date2 | toLongThaiDate }}
+            tr
+              td(style="width: 10%") 3
+              td(style="width: 60%") {{ postnatalCalendar.date31 | toLongThaiDate}} - ถึง {{ postnatalCalendar.date32 | toLongThaiDate}}
+              td(style="width: 30%") {{ postnatalCalendar.date3 | toLongThaiDate }}
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง
+
+
+lx-dialog.dialog.dialog--l#mdlAncCloudService(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title ประวัติการฝากครรภ์ (CLOUD)
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    div(class="p++")
+      .data-table-container
+        table.data-table
+          thead
+            tr
+              th(style="width: 10%") ครรภ์ที่
+              th(style="width: 10%") ครั้งที่
+              th(style="width: 20%") วันที่
+              th(style="width: 50%") หน่วยบริการ
+              th(style="width: 10%") ผลตรวจ
+          tbody
+            tr(ng-if="!ancCloudService.length")
+              td(colspan="5") ไม่พบรายการ
+            tr(ng-repeat="a in ancCloudService", ng-if="ancCloudService.length")
+              td(style="width: 10%") {{ a.GRAVIDA }}
+              td(style="width: 10%") {{ a.ANCNO }}
+              td(style="width: 20%") {{ a.DATE_SERV }}
+              td(style="width: 50%") {{ a.HOSPCODE}} - {{ a.HOSPNAME }}
+              td(style="width: 10%") {{ a.ANCRESULT }}
+
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง
+
+
+lx-dialog.dialog.dialog--l#mdlPostnatalCloudService(auto-close="false")
+  div.dialog__header
+    div.toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title ประวัติการดูแลหลังคลอด(CLOUD)
+
+      div.toolbar__right
+        buttton.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+
+  div.dialog__content
+    div(class="p++")
+      .data-table-container
+        table.data-table
+          thead
+            tr
+              th(style="width: 10%") #
+              th(style="width: 20%") วันที่
+              th(style="width: 60%") หน่วยบริการ
+              th(style="width: 10%") ผลตรวจ
+          tbody
+            tr(ng-if="!postnatalCloudService.length")
+              td(colspan="4") ไม่พบรายการ
+            tr(ng-repeat="p in postnatalCloudService", ng-if="postnatalCloudService.length")
+              td(style="width: 10%") {{ $index+1 }}
+              td(style="width: 20%") {{ p.PPCARE }}
+              td(style="width: 60%") {{ p.HOSPCODE}} - {{ p.HOSPNAME }}
+              td(style="width: 10%") {{ p.PPRESULT }}
+
+  div.dialog__actions
+    button.btn.btn--l.btn--red.btn--raised(lx-dialog-close, lx-ripple)
+      | ปิดหน้าต่าง

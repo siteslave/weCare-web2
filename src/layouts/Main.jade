@@ -2,7 +2,7 @@ doctype
 html(ng-app="app")
   head
     meta(charset="utf-8")
-    title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ (weCare)
+    title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ v1.0.0-beta
 
     //- Main Scripts
     script(src="../js/App.js")
@@ -18,7 +18,7 @@ html(ng-app="app")
   body
     .toolbar.bgc-indigo-500.tc-white-1
       .toolbar__left(class="mr+++")
-        a(href="./Index.html", lx-ripple).btn.btn--l.btn--white.btn--icon
+        a(href="./Index.html#/", lx-ripple).btn.btn--l.btn--white.btn--icon
           i.mdi.mdi-windows
       span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (weCare)
       
@@ -31,6 +31,10 @@ html(ng-app="app")
             ul
               li
                 a(href="./Index.html#/").dropdown-link.dropdown-link--is-large
+                  i.mdi.mdi-view-dashboard
+                  span Dashboard
+              li
+                a(href="./Index.html#/main").dropdown-link.dropdown-link--is-large
                   i.mdi.mdi-monitor
                   span ทะเบียนผู้มารับบริการ
               li
