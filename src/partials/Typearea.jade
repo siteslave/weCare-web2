@@ -1,0 +1,46 @@
+.card
+  #progress
+  .data-table-container
+    header.data-table-header
+      .data-table-header__label
+        span.fs-title
+          i.mdi.mdi-acount
+          | &nbsp; รายชื่อกลุ่มเป้าหมายที่ซ้ำซ้อนกับหน่วยบริการอื่น
+
+    table.data-table
+      thead
+        tr
+          th(style="width: 10%") เลขบัตรประชาชน
+          th ชื่อ-สกุล
+          th(style="width: 15%") วันเกิด
+          th(style="width: 10%") อายุ(ปี)
+          th(style="width: 30%") ที่อยู่
+          th(style="width: 10%") #
+      tbody
+        //tr(ng-if="!patient.length")
+        //  td(colspan="6") ไม่พบรายการ.
+        //tr(ng-repeat="p in patient", ng-if="patient.length")
+        //  td(style="width: 10%") {{ p.hn }}
+        //  td {{ p.fname }} {{ p.lname }}
+        //  td(style="width: 10%") {{ p.age_y }}
+        //  td(style="width: 20%") {{ p.pttype }} {{ p.pttype_name }}
+        //  td(style="width: 30%") {{ p.diag_code }} {{ p.diag_name }}
+        //  td(style="width: 10%")
+        //    lx-dropdown(position="right", from-top="true")
+        //      button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+        //        i.mdi.mdi-dots-vertical
+        //      lx-dropdown-menu
+        //        ul
+        //          li
+        //            a.dropdown-link(ng-click="showName('Satit')")
+        //              i.mdi.mdi-eye
+        //              span ดูประวัติการรับบริการ (EMR)
+        //          li
+        //            a.dropdown-link(ng-click="showName('Satit')")
+        //              i.mdi.mdi-link
+        //              span ดูประวัติการตรวจ LAB
+        //          li.dropdown-divider
+        //          li
+        //            a.dropdown-link(ng-click="showName('Satit')")
+        //              i.mdi.mdi-content-copy
+        //              span ดูข้อมูลการรับบริการในวันนี้

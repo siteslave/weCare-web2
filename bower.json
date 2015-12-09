@@ -1,0 +1,25 @@
+{
+  "name": "iEMR",
+  "description": "Online Electronic Medical Record",
+  "main": "main.js",
+  "authors": [
+    "Satit Rianpit"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "iEMR",
+    "NodeJS",
+    "AngularJS",
+    "HDC"
+  ],
+  "homepage": "https://github.com/siteslave/iEMR",
+  "moduleType": [
+    "es6"
+  ],
+  "private": true,
+  "dependencies": {
+    "lumx": "~0.3.96",
+    "angular-ui-router": "~0.2.15",
+    "angular": "~1.4.8"
+  }
+}

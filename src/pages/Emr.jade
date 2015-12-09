@@ -1,0 +1,13 @@
+extends ../layouts/Main
+
+block content 
+  .container
+div(flex-container="row", flex-gutter="24")
+  div(flex-item="3")
+    ul(class="list mt++")
+      li.list-row
+        div.list-row__content
+          span.display-block 21/08/2558 14:30
+          span.display-block.fs-body-1.tc-black-2 รพ.สต.นาสีนวน บ้านหนองอุ่ม
+  div(flex-item="9")
+    div(ui-view)

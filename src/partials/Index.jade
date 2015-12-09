@@ -1,0 +1,54 @@
+.card
+  .data-table-container
+    header.data-table-header
+      .data-table-header__label
+        span.fs-title
+          i.mdi.mdi-accout 
+          | &nbsp; ทะเบียนผู้รับบริการ
+          
+      .data-table-header__actions
+        lx-date-picker(model="datepicker.date", label="วันที่ให้บริการ", 
+        locale="th", fixed-label="true", icon="calendar")
+    table.data-table 
+      thead 
+        tr.data-table__selectable-row
+          th 
+          th HN
+          th ชื่อ - สกุล
+          th อายุ
+          th CC
+          th สิทธิ์การรักษา
+          th ผลการวินิจฉัย
+          th #
+      tbody 
+        tr.data-table__selectable-row
+          td
+          td xxxx
+          td 343
+          td sd
+          td ss
+          td sd
+          td xss
+          td
+            lx-dropdown(position="right", from-top="true")
+              button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
+                i.mdi.mdi-dots-vertical
+                  
+              lx-dropdown-menu
+                ul
+                  li 
+                    a.dropdown-link(ng-click="showName('xxx')")
+                      i.mdi.mdi-eye
+                      span ดูประวัติการรับบริการ (EMR)
+                  li 
+                    a.dropdown-link
+                      i.mdi.mdi-account-plus
+                      span ดูข้อมูล CKD/GFR
+                  li 
+                    a.dropdown-link
+                      i.mdi.mdi-link
+                      span ดูประวัติการตรวจ LAB
+                  li 
+                    a.dropdown-link
+                      i.mdi.mdi-content-copy
+                      span ดูข้อมูลการรับบริการในวันนี้

@@ -1,0 +1,21 @@
+@media screen and (max-width: 1023px) {
+  body {
+    padding: 0 10px 0 10px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  body {
+    padding: 0 50px 0 50px;
+  }
+}
+
+.padding-top-10 {
+  padding-top: 10px;
+}
+.data-table-header__actions {
+  width: 250px;
+}
+
+body {
+  font-size: 14px;
+}

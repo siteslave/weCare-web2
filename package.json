@@ -1,14 +1,11 @@
 {
-  "name": "electron-quick-start",
+  "name": "iEMR",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron main.js"
-  },
+  "description": "iEMR",
+  "main": "./app/App.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/siteslave/electron-quick-start.git"
+    "url": "git+https://github.com/siteslave/iemr.git"
   },
   "keywords": [
     "Electron",
@@ -19,7 +16,26 @@
   "author": "Satit Rianpit",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/siteslave/electron-quick-start/issues"
+    "url": "https://github.com/siteslave/iemr/issues"
   },
-  "homepage": "https://github.com/siteslave/electron-quick-start#readme"
+  "homepage": "https://github.com/siteslave/iemr#readme",
+  "dependencies": {
+    "crypto-js": "^3.1.5",
+    "fs-extra": "^0.26.2",
+    "gulp-jshint": "^2.0.0",
+    "jshint": "^2.8.0",
+    "knex": "^0.9.0",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "mysql": "^2.9.0",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-csslint": "^0.2.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-watch": "^4.3.5"
+  }
 }

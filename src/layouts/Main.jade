@@ -1,0 +1,74 @@
+doctype
+html(ng-app="app")
+  head
+    meta(charset="utf-8")
+    title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ
+    link(rel="stylesheet", href="../../vendor/lumx/dist/lumx.css", charset="utf-8")
+    link(rel="stylesheet", href="../css/app.css")
+
+    script(src="../js/Index.js")
+    script(src="../js/Config.js")
+    script(src="../js/Helpers.js")
+    script(src="../js/controllers/Main.js")
+    script(src="../js/controllers/Settings.js")
+    script(src="../js/controllers/Typearea.js")
+    script(src="../js/services/Main.js")
+
+  body
+    .toolbar.bgc-indigo-500.tc-white-1
+      .toolbar__left(class="mr+++")
+        a(href="#/", lx-ripple).btn.btn--l.btn--white.btn--icon
+          i.mdi.mdi-google-chrome
+      span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (iEMR)
+      
+      .toolbar__right
+        lx-dropdown(position="right", from-top)
+          button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle, lx-tooltip="เมนูหลัก", tooltip-position="left")
+            i.mdi.mdi-apps
+              
+          lx-dropdown-menu
+            ul
+              li
+                a(href="#/").dropdown-link
+                  i.mdi.mdi-monitor
+                  span ทะเบียนผู้มารับบริการ
+              li
+                a(href="#/emr").dropdown-link
+                  i.mdi.mdi-file-find
+                  span ตรวจสอบประวัติรับบริการ (EMR)
+              li
+                a(href="#/typearea").dropdown-link
+                  i.mdi.mdi-eye
+                  span ตรวจสอบประชากรในเขต
+              li.dropdown-divider
+                
+              li
+                a.dropdown-link.dropdown-link--is-header SETTINGS
+              li 
+                a(href="#/settings").dropdown-link
+                  i.mdi.mdi-settings
+                  span กำหนดค่าการเชื่อมต่อ
+              li 
+                a(href="#/settings").dropdown-link
+                  i.mdi.mdi-auto-fix
+                  span กำหนดรหัส LAB
+              li.dropdown-divider
+              li 
+                a(href="#/settings").dropdown-link
+                  i.mdi.mdi-auto-fix
+                  span กำหนดรหัส LAB
+                    
+              li
+                a.dropdown-link.dropdown-link--is-header TOOLS
+              
+              li 
+                a(href="#/settings").dropdown-link
+                  i.mdi.mdi-cloud-upload
+                  span อัปโหลด 43 แฟ้ม
+              
+              li 
+                a(href="#/settings").dropdown-link
+                  i.mdi.mdi-power
+                  span ออกจากโปรแกรม
+
+    block content
