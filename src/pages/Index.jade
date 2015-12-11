@@ -1,5 +1,13 @@
 extends ../layouts/Main
 
+block scripts
+  script(src="../js/Index.js")
+  script(src="../js/controllers/Main.js")
+  script(src="../js/controllers/Settings.js")
+  script(src="../js/controllers/Typearea.js")
+  script(src="../js/services/Main.js")
+  script(src="../js/services/Typearea.js")
+
 block content 
   .container
     div(ui-view)

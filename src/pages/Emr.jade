@@ -1,13 +1,52 @@
 extends ../layouts/Main
 
-block content 
-  .container
-div(flex-container="row", flex-gutter="24")
-  div(flex-item="3")
-    ul(class="list mt++")
-      li.list-row
-        div.list-row__content
-          span.display-block 21/08/2558 14:30
-          span.display-block.fs-body-1.tc-black-2 รพ.สต.นาสีนวน บ้านหนองอุ่ม
-  div(flex-item="9")
-    div(ui-view)
+block scripts
+  script(src="../js/Emr.js")
+
+
+block content
+  div(flex-container="row")
+    div(flex-item="4", class="card p+")
+
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            span.fs-title
+              i.mdi.mdi-calendar-check
+              | &nbsp; ประวัติรับบริการ
+        table.data-table
+          tbody
+            tr
+              td
+                span.fs-subhead 21/08/2559 14:30
+                br
+                span.tc-grey-500 รพ.สต. นาสีนวน บ้านหนองอุ่ม
+              td(style="width: 10%")
+                button.btn.btn--m.btn--grey.btn--icon(lx-ripple, lx-dropdown-toggle)
+                  i.mdi.mdi-trending-neutral
+            tr
+              td
+                span.fs-subhead 21/08/2559 14:30
+                br
+                span.tc-grey-500 รพ.สต. นาสีนวน บ้านหนองอุ่ม
+              td(style="width: 10%")
+                button.btn.btn--m.btn--grey.btn--icon(lx-ripple, lx-dropdown-toggle)
+                  i.mdi.mdi-trending-neutral
+
+      //span.fs-title.display-block.mb ประวัติรับบริการ
+      //div.divider.divider--dark
+      //ul(class="list mt++")
+      //  li.list-row.list-row--has-separator
+      //    a(href="#/detail/xxxx").list-row__content
+      //      span.display-block 21/08/2558 14:30
+      //      span.display-block.fs-body-1.tc-black-2 รพ.สต.นาสีนวน บ้านหนองอุ่ม
+      //  li.list-row.list-row--has-separator
+      //    div.list-row__content
+      //      span.display-block 21/08/2558 14:30
+      //      span.display-block.fs-body-1.tc-black-2 รพ.สต.นาสีนวน บ้านหนองอุ่ม
+    div(flex-item="8", style="padding-top: 0; padding-left: 10px;")
+      div(class="card p+")
+        p xxxx
+      div(style="padding-bottom: 10px;")
+      div(class="card p+")
+        div(ui-view)

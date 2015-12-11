@@ -4,43 +4,88 @@
     header.data-table-header
       .data-table-header__label
         span.fs-title
-          i.mdi.mdi-acount
+          i.mdi.mdi-account
           | &nbsp; รายชื่อกลุ่มเป้าหมายที่ซ้ำซ้อนกับหน่วยบริการอื่น
-
+      .data-table-header__actions
+        lx-text-field(label="ค้นหา", fixed-label="true", icon="magnify")
+          input(type="text", ng-model="query")
     table.data-table
       thead
         tr
-          th(style="width: 10%") เลขบัตรประชาชน
+          th(style="width: 5%") จอง
+          th(style="width: 5%") ที่นี่
+          th(style="width: 15%") เลขบัตรประชาชน
+          th(style="width: 15%") PID
           th ชื่อ-สกุล
-          th(style="width: 15%") วันเกิด
-          th(style="width: 10%") อายุ(ปี)
-          th(style="width: 30%") ที่อยู่
+          th(style="width: 10%") เพศ
+          th(style="width: 10%") วันเกิด
+          th(style="width: 5%") อายุ(ปี)
+          th(style="width: 5%") Type
           th(style="width: 10%") #
       tbody
-        //tr(ng-if="!patient.length")
-        //  td(colspan="6") ไม่พบรายการ.
-        //tr(ng-repeat="p in patient", ng-if="patient.length")
-        //  td(style="width: 10%") {{ p.hn }}
-        //  td {{ p.fname }} {{ p.lname }}
-        //  td(style="width: 10%") {{ p.age_y }}
-        //  td(style="width: 20%") {{ p.pttype }} {{ p.pttype_name }}
-        //  td(style="width: 30%") {{ p.diag_code }} {{ p.diag_name }}
-        //  td(style="width: 10%")
-        //    lx-dropdown(position="right", from-top="true")
-        //      button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
-        //        i.mdi.mdi-dots-vertical
-        //      lx-dropdown-menu
-        //        ul
-        //          li
-        //            a.dropdown-link(ng-click="showName('Satit')")
-        //              i.mdi.mdi-eye
-        //              span ดูประวัติการรับบริการ (EMR)
-        //          li
-        //            a.dropdown-link(ng-click="showName('Satit')")
-        //              i.mdi.mdi-link
-        //              span ดูประวัติการตรวจ LAB
-        //          li.dropdown-divider
-        //          li
-        //            a.dropdown-link(ng-click="showName('Satit')")
-        //              i.mdi.mdi-content-copy
-        //              span ดูข้อมูลการรับบริการในวันนี้
+        tr(ng-if="!patient.length")
+          td(colspan="10") ไม่พบรายการ
+        tr(ng-repeat="p in patient | filter: query" ng-if="patient.length", ng-class="{'data-table__selectable-row data-table__selectable-row--is-selected': p.reserved=='Y'}")
+          td(style="width: 5%")
+          td(style="width: 5%")
+            i.mdi.mdi-check(ng-if="p.isOwner == 'Y'")
+            i.mdi.mdi-close(ng-if="p.isOwner != 'Y'")
+          td(style="width: 15%") {{ p.cid }}
+          td(style="width: 15%") {{ p.pid }}
+          td {{ p.fname }} {{ p.lname }}
+          td(style="width: 10%") {{ p.sex }}
+          td(style="width: 10%") {{ p.birth }}
+          td(style="width: 5%") {{ p.age }}
+          td(style="width: 5%") {{ p.typearea }}
+          td(style="width: 10%")
+            lx-dropdown(position="right", from-top="true")
+              button.btn.btn--m.btn--grey.btn--icon(lx-ripple, lx-dropdown-toggle)
+                i.mdi.mdi-dots-vertical
+              lx-dropdown-menu
+                ul
+                  li
+                    a.dropdown-link(ng-click="showDuplicated(p.cid)")
+                      i.mdi.mdi-eye
+                      span ดูรายรายการซ้ำกับหน่วยบริการอื่น
+                  li
+                    a.dropdown-link(ng-click="showName('Satit')")
+                      i.mdi.mdi-pencil
+                      span เปลี่ยน Typearea
+                  li.dropdown-divider(ng-if="p.reserved == 'N'")
+                  li(ng-if="p.reserved == 'N'")
+                    a.dropdown-link(ng-click="reserve(p.cid)")
+                      i.mdi.mdi-book-variant
+                      span จองขึ้นทะเบียนกลุ่มเป้าหมาย
+
+  lx-dialog.dialog.dialog--l#mdlDuplicated(auto-close="true", onclose="closingDuplicatedDialog()")
+    .dialog__header
+      .toolbar.bgc-indigo-500(class="pl++")
+        span.toolbar__label.tc-white.fs-title ตรวจสอบรายการซ้ำกับหน่วยบริการอื่น
+        .toolbar__right
+          button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+            i.mdi.mdi-close
+    .dialog__content
+      div(class="p+")
+        .data-table-container
+          table.data-table
+            thead
+              tr
+                th(style="width: 7%") จอง
+                th ชื่อ-สกุล
+                th(style="width: 10%") เพศ
+                th(style="width: 10%") วันเกิด
+                th(style="width: 40%") หน่วยบริการ
+                th(style="width: 5%") Type
+            tbody
+              tr(ng-if="!duplicatedPerson.length")
+                td(colspan="6") ไม่พบรายการ
+              tr(ng-repeat="p in duplicatedPerson", ng-if="duplicatedPerson.length", ng-class="{'data-table__selectable-row data-table__selectable-row--is-selected': p.reserved=='Y'}")
+                td(style="width: 7%")
+                td {{ p.fullname }}
+                td(style="width: 10%") {{ p.sex }}
+                td(style="width: 10%") {{ p.birth }}
+                td(style="width: 40%") {{ p.hospital }}
+                td(style="width: 5%") {{ p.typearea }}
+
+    //.dialog__actions
+    //  button.btn.btn--m.btn--red.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง

@@ -2,7 +2,7 @@
   "name": "iEMR",
   "version": "1.0.0",
   "description": "iEMR",
-  "main": "./app/App.js",
+  "main": "./app/Main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/siteslave/iemr.git"

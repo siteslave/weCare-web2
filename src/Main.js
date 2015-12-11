@@ -1,11 +1,14 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
+var app = require('electron').app;
+var BrowserWindow = require('electron').BrowserWindow;
 var ipcMain = require('electron').ipcMain;
 var fse = require('fs-extra');
 var path = require('path');
 var fs = require('fs');
-var CryptoJS = require('crypto-js');
-var key = '1e90fdaa33e783fc66491b82fcdb1a2bae920aedef7b2857541ad60779eb5d41';
+
+var _crypto = require('crypto');
+
+var algorithm = 'aes-256-ctr';
+var salt = 'mANiNThEdARk';
 
 var mainWindow = null;
 
@@ -19,7 +22,10 @@ fse.ensureDirSync(appPath);
 
 fs.access(configFile, fs.W_OK && fs.R_OK, (err) => {
   if (err) {
-    var encrypted = CryptoJS.AES.encrypt('123456', key).toString();
+    //var encrypted = CryptoJS.AES.encrypt('123456', key).toString();
+    var cipher = _crypto.createCipher(algorithm, salt);
+    var crypted = cipher.update(text,'utf8','hex');
+    crypted += cipher.final('hex');
 
     var defaultConfig = {
       db: {
@@ -27,11 +33,11 @@ fs.access(configFile, fs.W_OK && fs.R_OK, (err) => {
         database: 'hos',
         port: 3306,
         user: 'sa',
-        password: encrypted
+        password: crypted
       },
       cloud: {
         url: 'http://localhost',
-        key: encrypted
+        key: crypted
       }
     };
 
@@ -53,23 +59,38 @@ ipcMain.on('get-app-path', (event) => {
   event.returnValue = appPath
 });
 
+//ipcMain.on('encrypt', (event, text) => {
+//  var ciphertext = CryptoJS.AES.encrypt(text, key).toString();
+//  event.returnValue = ciphertext;
+//});
+//
+//ipcMain.on('decrypt', (event, text) => {
+//  let byte = CryptoJS.AES.decrypt(text, key);
+//  let decrypt_text = byte.toString(CryptoJS.enc.Utf8);
+//  event.returnValue = decrypt_text;
+//});
+
 ipcMain.on('encrypt', (event, text) => {
-  var ciphertext = CryptoJS.AES.encrypt(text, key).toString();
-  event.returnValue = ciphertext;
+  var cipher = _crypto.createCipher(algorithm, salt);
+  var crypted = cipher.update(text,'utf8','hex');
+  crypted += cipher.final('hex');
+  event.returnValue = crypted;
 });
 
 ipcMain.on('decrypt', (event, text) => {
-  let byte = CryptoJS.AES.decrypt(text, key);
-  let decrypt_text = byte.toString(CryptoJS.enc.Utf8);
-  event.returnValue = decrypt_text;
+  var decipher = _crypto.createDecipher(algorithm, salt);
+  var dec = decipher.update(text,'hex','utf8');
+  dec += decipher.final('utf8');
+  event.returnValue = dec;
 });
+
 
 app.on('ready', () => {
 
   mainWindow = new BrowserWindow({width: 1010, height: 600});
   mainWindow.loadURL('file://' + __dirname + '/pages/index.html');
   // Open dev tools
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

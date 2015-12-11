@@ -3,21 +3,22 @@ html(ng-app="app")
   head
     meta(charset="utf-8")
     title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ
-    link(rel="stylesheet", href="../../vendor/lumx/dist/lumx.css", charset="utf-8")
-    link(rel="stylesheet", href="../css/app.css")
 
-    script(src="../js/Index.js")
+    //- Main Scripts
+    script(src="../js/App.js")
     script(src="../js/Config.js")
     script(src="../js/Helpers.js")
-    script(src="../js/controllers/Main.js")
-    script(src="../js/controllers/Settings.js")
-    script(src="../js/controllers/Typearea.js")
-    script(src="../js/services/Main.js")
+
+    //- Application scripts
+    block scripts
+
+    link(rel="stylesheet", href="../../vendor/lumx/dist/lumx.css", charset="utf-8")
+    link(rel="stylesheet", href="../css/app.css")
 
   body
     .toolbar.bgc-indigo-500.tc-white-1
       .toolbar__left(class="mr+++")
-        a(href="#/", lx-ripple).btn.btn--l.btn--white.btn--icon
+        a(href="./Index.html", lx-ripple).btn.btn--l.btn--white.btn--icon
           i.mdi.mdi-google-chrome
       span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (iEMR)
       
@@ -29,15 +30,15 @@ html(ng-app="app")
           lx-dropdown-menu
             ul
               li
-                a(href="#/").dropdown-link
+                a(href="./Index.html#/").dropdown-link
                   i.mdi.mdi-monitor
                   span ทะเบียนผู้มารับบริการ
               li
-                a(href="#/emr").dropdown-link
+                a(href="./Emr.html#/").dropdown-link
                   i.mdi.mdi-file-find
                   span ตรวจสอบประวัติรับบริการ (EMR)
               li
-                a(href="#/typearea").dropdown-link
+                a(href="./Index.html#/typearea").dropdown-link
                   i.mdi.mdi-eye
                   span ตรวจสอบประชากรในเขต
               li.dropdown-divider
@@ -45,7 +46,7 @@ html(ng-app="app")
               li
                 a.dropdown-link.dropdown-link--is-header SETTINGS
               li 
-                a(href="#/settings").dropdown-link
+                a(href="./Index.html#/settings").dropdown-link
                   i.mdi.mdi-settings
                   span กำหนดค่าการเชื่อมต่อ
               li 
@@ -62,7 +63,7 @@ html(ng-app="app")
                 a.dropdown-link.dropdown-link--is-header TOOLS
               
               li 
-                a(href="#/settings").dropdown-link
+                a(href="./Index.html#/settings").dropdown-link
                   i.mdi.mdi-cloud-upload
                   span อัปโหลด 43 แฟ้ม
               
@@ -72,3 +73,5 @@ html(ng-app="app")
                   span ออกจากโปรแกรม
 
     block content
+
+
