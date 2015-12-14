@@ -18,8 +18,8 @@ html(ng-app="app")
   body
     .toolbar.bgc-indigo-500.tc-white-1
       .toolbar__left(class="mr+++")
-        a(href="./Index.html", lx-ripple).btn.btn--l.btn--white.btn--icon
-          i.mdi.mdi-google-chrome
+        a(href="./Index.html#typearea", lx-ripple).btn.btn--l.btn--white.btn--icon
+          i.mdi.mdi-windows
       span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (iEMR)
       
       .toolbar__right
@@ -29,48 +29,35 @@ html(ng-app="app")
               
           lx-dropdown-menu
             ul
+              //li
+              //  a(href="./Index.html#/").dropdown-link.dropdown-link--is-large
+              //    i.mdi.mdi-monitor
+              //    span ทะเบียนผู้มารับบริการ
+              //li
+              //  a(href="./Emr.html#/").dropdown-link.dropdown-link--is-large
+              //    i.mdi.mdi-file-find
+              //    span ตรวจสอบประวัติรับบริการ (EMR)
               li
-                a(href="./Index.html#/").dropdown-link
-                  i.mdi.mdi-monitor
-                  span ทะเบียนผู้มารับบริการ
-              li
-                a(href="./Emr.html#/").dropdown-link
-                  i.mdi.mdi-file-find
-                  span ตรวจสอบประวัติรับบริการ (EMR)
-              li
-                a(href="./Index.html#/typearea").dropdown-link
+                a(href="./Index.html#/typearea").dropdown-link.dropdown-link--is-large
                   i.mdi.mdi-eye
                   span ตรวจสอบประชากรในเขต
               li.dropdown-divider
                 
               li
-                a.dropdown-link.dropdown-link--is-header SETTINGS
-              li 
-                a(href="./Index.html#/settings").dropdown-link
-                  i.mdi.mdi-settings
-                  span กำหนดค่าการเชื่อมต่อ
-              li 
-                a(href="#/settings").dropdown-link
-                  i.mdi.mdi-auto-fix
-                  span กำหนดรหัส LAB
-              li.dropdown-divider
-              li 
-                a(href="#/settings").dropdown-link
-                  i.mdi.mdi-auto-fix
-                  span กำหนดรหัส LAB
-                    
-              li
                 a.dropdown-link.dropdown-link--is-header TOOLS
-              
               li 
-                a(href="./Index.html#/settings").dropdown-link
-                  i.mdi.mdi-cloud-upload
-                  span อัปโหลด 43 แฟ้ม
-              
-              li 
-                a(href="#/settings").dropdown-link
-                  i.mdi.mdi-power
-                  span ออกจากโปรแกรม
+                a(href="./Settings.html#/").dropdown-link
+                  i.mdi.mdi-settings
+                  span กำหนดค่าการใช้งาน
+              //li
+              //  a(href="./Index.html#/settings").dropdown-link
+              //    i.mdi.mdi-cloud-upload
+              //    span อัปโหลด 43 แฟ้ม
+              //
+              //li
+              //  a(href="#/settings").dropdown-link
+              //    i.mdi.mdi-power
+              //    span ออกจากโปรแกรม
 
     block content
 

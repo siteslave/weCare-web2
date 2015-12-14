@@ -1,0 +1,33 @@
+extends ../layouts/Main
+
+block scripts
+  script(src="../js/Settings.js")
+  script(src="../js/controllers/settings/Connection.js")
+
+
+block content
+  div(flex-container="row")
+    div(flex-item="3", class="card p+")
+      span.fs-title.display-block.mb
+        i.mdi.mdi-settings
+        | &nbsp; SETTINGS
+      ul(class="list mt++")
+        li.list-row.list-row--has-separator
+          div.list-row__primary
+            i.icon.icon--s.icon--grey.icon--circled.mdi.mdi-database
+
+          div.list-row__content
+            span.display-block.fs-title Connection
+            span.display-block.fs-body-1.tc-grey-500 กำหนดค่าการเชื่อมต่อฐานข้อมูล
+
+        li.list-row.list-row--has-separator
+          div.list-row__primary
+            i.icon.icon--s.icon--grey.icon--circled.mdi.mdi-share-variant
+
+          div.list-row__content
+            span.display-block.fs-title LAB Mapper
+            span.display-block.fs-body-1.tc-grey-500 กำหนดค่ารหัส LAB
+
+    div(flex-item="9", style="padding-top: 0; padding-left: 10px;")
+      div(class="card p+")
+        div(ui-view)

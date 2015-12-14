@@ -1,5 +1,5 @@
-angular.module('app.controllers.Settings', [])
-  .controller('SettingCtrl', ($scope, Config, Helpers, LxNotificationService) => {
+angular.module('app.controllers.settings.Connection', [])
+  .controller('ConnectionCtrl', ($scope, Config, Helpers, LxNotificationService) => {
 
     $scope.config = Config.getConfig();
 

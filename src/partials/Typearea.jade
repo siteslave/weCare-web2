@@ -48,7 +48,7 @@
                       i.mdi.mdi-eye
                       span ดูรายรายการซ้ำกับหน่วยบริการอื่น
                   li
-                    a.dropdown-link(ng-click="showName('Satit')")
+                    a.dropdown-link(ng-click="showChageTypearea(p.cid)")
                       i.mdi.mdi-pencil
                       span เปลี่ยน Typearea
                   li.dropdown-divider(ng-if="p.reserved == 'N'")
@@ -57,7 +57,7 @@
                       i.mdi.mdi-book-variant
                       span จองขึ้นทะเบียนกลุ่มเป้าหมาย
 
-  lx-dialog.dialog.dialog--l#mdlDuplicated(auto-close="true", onclose="closingDuplicatedDialog()")
+  lx-dialog.dialog.dialog--l#mdlDuplicated(auto-close="true")
     .dialog__header
       .toolbar.bgc-indigo-500(class="pl++")
         span.toolbar__label.tc-white.fs-title ตรวจสอบรายการซ้ำกับหน่วยบริการอื่น
@@ -89,3 +89,24 @@
 
     //.dialog__actions
     //  button.btn.btn--m.btn--red.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง
+  lx-dialog.dialog.dialog--l#mdlChangeTypearea(auto-close="true", onclose="closingDuplicatedDialog()")
+    .dialog__header
+      .toolbar.bgc-indigo-500(class="pl++")
+        span.toolbar__label.tc-white.fs-title เปลี่ยน Typearea
+        .toolbar__right
+          button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+            i.mdi.mdi-close
+    .dialog__content
+      div(class="p+")
+        div(flex-container="row", flex-gutter="24")
+          div(flex-item)
+            lx-select(ng-model="typearea_id", placeholder="เลือก Typearea",
+            choices="typeareas", change="setTypearea(newValue)", floating-label)
+              lx-select-selected {{ $selected.house_regist_type_name }}
+              lx-select-choices {{ $choice.house_regist_type_name }}
+
+
+    .dialog__actions
+      button.btn.btn--m.btn--green.btn--raised(lx-ripple, ng-click="saveTypearea()") เปลี่ยน Typearea
+      | &nbsp;
+      button.btn.btn--m.btn--red.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง

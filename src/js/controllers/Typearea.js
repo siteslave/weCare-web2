@@ -1,9 +1,45 @@
 angular.module('app.controllers.Typearea', ['app.services.Typearea'])
-.controller('TypeareaCtrl', ($scope, LxDialogService, LxProgressService, LxNotificationService, TypeareaService) => {
+.controller('TypeareaCtrl', ($scope, Config, LxDialogService, LxProgressService, LxNotificationService, TypeareaService) => {
 
   $scope.patient = [];
   var ipcRenderer = require('electron').ipcRenderer;
   var _ = require('lodash');
+
+  var _config = Config.getConfig();
+  var db = Config.getMySQLConnection();
+
+  $scope.hospcode = _config.cloud.hospcode;
+  $scope.cid = null;
+
+  TypeareaService.getTypearea(db)
+  .then((rows) => {
+    $scope.typeareas = rows;
+  });
+
+  $scope.closingDuplicatedDialog = () => {
+    $scope.cid = null;
+  };
+
+  $scope.saveTypearea = () => {
+    if ($scope.cid && $scope.typearea) {
+      TypeareaService.saveTypeareaPerson(db, $scope.cid, $scope.typearea)
+      .then(() => {
+        return TypeareaService.saveTypeAreaPatient(db, $scope.cid, $scope.typearea)
+      })
+      .then(() => {
+        LxNotificationService.success('เปลี่ยน Typearea ในฐาน HOSxP เสร็จเรียบร้อยแล้ว');
+        LxDialogService.close('mdlChangeTypearea');
+      }, (err) => {
+        LxNotificationService.error('เกิดข้อผิดพลาด: ' + JSON.stringify(err));
+      })
+    } else {
+      LxNotificationService.error('กรุณาระบุ Typearea');
+    }
+  };
+
+  $scope.setTypearea = (data) => {
+    $scope.typearea = data.newValue.house_regist_type_id;
+  };
 
   $scope.showDuplicated = (cid) => {
     let _cid = ipcRenderer.sendSync('encrypt', cid);
@@ -33,7 +69,11 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
       console.log(err);
     });
 
+  };
 
+  $scope.showChageTypearea = (cid) => {
+    $scope.cid = cid;
+    LxDialogService.open('mdlChangeTypearea');
   };
 
   $scope.getList = (hospcode) => {
@@ -74,7 +114,7 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
     let _cid = ipcRenderer.sendSync('encrypt', cid);
     LxNotificationService.confirm('ยืนยัน', 'คุณต้องการจองข้อมูลกลุ่มเป้าหมายคนนี้ ใช่หรือไม่?', {ok: 'ใช่', cancel: 'ไม่ใช่'}, function (res) {
       if (res) {
-        TypeareaService.doReserve(_cid, '04960')
+        TypeareaService.doReserve(_cid, $scope.hospcode)
           .then((data) => {
             if (data.ok) {
               LxNotificationService.success('จองรายการเสร็จเรียบร้อยแล้ว');
@@ -95,6 +135,6 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
 
   };
 
-  $scope.getList('04960')
+  $scope.getList($scope.hospcode)
 
 });

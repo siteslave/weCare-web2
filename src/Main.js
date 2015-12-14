@@ -37,7 +37,8 @@ fs.access(configFile, fs.W_OK && fs.R_OK, (err) => {
       },
       cloud: {
         url: 'http://localhost',
-        key: crypted
+        key: crypted,
+        hospcode: '00000'
       }
     };
 
@@ -88,7 +89,7 @@ ipcMain.on('decrypt', (event, text) => {
 app.on('ready', () => {
 
   mainWindow = new BrowserWindow({width: 1010, height: 600});
-  mainWindow.loadURL('file://' + __dirname + '/pages/index.html');
+  mainWindow.loadURL('file://' + __dirname + '/pages/Index.html#/typearea');
   // Open dev tools
   //mainWindow.webContents.openDevTools();
 
