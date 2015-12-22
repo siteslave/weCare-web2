@@ -9,10 +9,10 @@
 
       return {
         getConfig: () => {
-          return config
+          return config;
         },
         getConfigFile: () => {
-          return configFile
+          return configFile;
         },
         getMySQLConnection: () => {
           return require('knex')({
@@ -25,6 +25,6 @@
             }
           });
         }
-      }
-    })
+      };
+    });
 })(window, window.angular);

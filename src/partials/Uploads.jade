@@ -1,0 +1,21 @@
+div(class="card p+")
+  div(flex-container="row", flex-gutter="24")
+    div(flex-item="6")
+      button.btn.btn--m.btn--blue.btn--raised(ng-click="getFile()", lx-ripple)
+        | เลือกไฟล์...
+    div(flex-item="6", style="text-align: right;")
+      button.btn.btn--m.btn--red.btn--raised(ng-click="doUploads()", lx-ripple)
+        | อัปโหลดไฟล์...
+
+
+  table.data-table
+    thead
+      tr
+        th ชื่อไฟล์
+        th ขนาด
+        th วันที่ปรับปรุงแก้ไข
+    tbody
+      tr(ng-repeat="f in files")
+        td {{ f.file_name }}
+        td {{ f.file_size }}
+        td {{ f.modified_date }}

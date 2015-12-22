@@ -4,7 +4,10 @@
       'lumx',
       'ui.router',
       'app.Config',
-      'app.Helpers'
+      'app.Helpers',
+      'app.controllers.emr.EmrMain',
+      'app.services.emr.EmrService',
+      'app.controllers.emr.EmrDetail'
     ])
     .config(($stateProvider, $urlRouterProvider) => {
       $urlRouterProvider.otherwise("/");
@@ -15,8 +18,9 @@
           templateUrl: '../partials/Emr.html'
         })
         .state('emr-detail', {
-          url: '/detail/:cid',
-          templateUrl: '../partials/emr/Detail.html'
-        })
-    })
+          url: '/detail/:hospcode/:pid/:seq',
+          templateUrl: '../partials/emr/Detail.html',
+          controller: 'EmrDetailCtrl'
+        });
+    });
 })(window, window.angular);

@@ -21,17 +21,33 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
   };
 
   $scope.saveTypearea = () => {
-    if ($scope.cid && $scope.typearea) {
+    if ($scope.cid && $scope.typearea >= 0) {
+
+      //$scope.typearea_export_code
       TypeareaService.saveTypeareaPerson(db, $scope.cid, $scope.typearea)
       .then(() => {
-        return TypeareaService.saveTypeAreaPatient(db, $scope.cid, $scope.typearea)
+        return TypeareaService.saveTypeAreaPatient(db, $scope.cid, $scope.typearea);
       })
       .then(() => {
+        let _cid = ipcRenderer.sendSync('encrypt', $scope.cid);
+        return TypeareaService.changeCloudTypeArea($scope.hospcode, _cid, $scope.typearea_export_code);
+      })
+      .then(() => {
+
         LxNotificationService.success('เปลี่ยน Typearea ในฐาน HOSxP เสร็จเรียบร้อยแล้ว');
+
+        if ($scope.typearea_export_code == "2" || $scope.typearea_export_code == "4" || $scope.typearea_export_code == "5") {
+          var idx = _.findIndex($scope.patient, {cid: $scope.cid});
+          if (idx >= 0) {
+            $scope.patient.splice(idx, 1);
+          }
+        }
+
         LxDialogService.close('mdlChangeTypearea');
+        //$scope.getList($scope.hospcode);
       }, (err) => {
         LxNotificationService.error('เกิดข้อผิดพลาด: ' + JSON.stringify(err));
-      })
+      });
     } else {
       LxNotificationService.error('กรุณาระบุ Typearea');
     }
@@ -39,6 +55,7 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
 
   $scope.setTypearea = (data) => {
     $scope.typearea = data.newValue.house_regist_type_id;
+    $scope.typearea_export_code = data.newValue.export_code;
   };
 
   $scope.showDuplicated = (cid) => {
@@ -61,9 +78,9 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
 
           $scope.duplicatedPerson.push(obj);
         });
-        LxDialogService.open('mdlDuplicated')
+        LxDialogService.open('mdlDuplicated');
       } else {
-        LxNotificationService.error('Error: ' + JSON.stringify(data.msg))
+        LxNotificationService.error('Error: ' + JSON.stringify(data.msg));
       }
     }, (err) => {
       console.log(err);
@@ -107,7 +124,7 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
       console.log(err);
       LxNotificationService.error('Connection error!');
       LxProgressService.linear.hide();
-    })
+    });
   };
 
   $scope.reserve = (cid) => {
@@ -124,17 +141,17 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
                 $scope.patient[idx].reserved = 'Y';
               }
             } else {
-              LxNotificationService.error('Error: ' + JSON.stringify(data.msg))
+              LxNotificationService.error('Error: ' + JSON.stringify(data.msg));
             }
           }, (err) => {
             console.log(err);
-            LxNotificationService.error('Connection error!')
-          })
+            LxNotificationService.error('Connection error!');
+          });
       }
-    })
+    });
 
   };
 
-  $scope.getList($scope.hospcode)
+  $scope.getList($scope.hospcode);
 
 });

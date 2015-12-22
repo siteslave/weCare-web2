@@ -15,8 +15,9 @@ var mainWindow = null;
 const dataPath = app.getPath('appData');
 const appPath = path.join(dataPath, 'weCare');
 const configFile = path.join(appPath, 'config.json');
+const dialog = require('electron').dialog;
 
-console.log(appPath);
+//console.log(appPath);
 
 fse.ensureDirSync(appPath);
 
@@ -24,7 +25,7 @@ fs.access(configFile, fs.W_OK && fs.R_OK, (err) => {
   if (err) {
     //var encrypted = CryptoJS.AES.encrypt('123456', key).toString();
     var cipher = _crypto.createCipher(algorithm, salt);
-    var crypted = cipher.update(text,'utf8','hex');
+    var crypted = cipher.update('123456','utf8','hex');
     crypted += cipher.final('hex');
 
     var defaultConfig = {
@@ -53,23 +54,12 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.on('get-config-file', (event) => {
-  event.returnValue = configFile
+  event.returnValue = configFile;
 });
 
 ipcMain.on('get-app-path', (event) => {
-  event.returnValue = appPath
+  event.returnValue = appPath;
 });
-
-//ipcMain.on('encrypt', (event, text) => {
-//  var ciphertext = CryptoJS.AES.encrypt(text, key).toString();
-//  event.returnValue = ciphertext;
-//});
-//
-//ipcMain.on('decrypt', (event, text) => {
-//  let byte = CryptoJS.AES.decrypt(text, key);
-//  let decrypt_text = byte.toString(CryptoJS.enc.Utf8);
-//  event.returnValue = decrypt_text;
-//});
 
 ipcMain.on('encrypt', (event, text) => {
   var cipher = _crypto.createCipher(algorithm, salt);
@@ -85,11 +75,26 @@ ipcMain.on('decrypt', (event, text) => {
   event.returnValue = dec;
 });
 
+ipcMain.on('open-file', (event) => {
+  dialog.showOpenDialog({
+    properties: [ 'openFile', 'multiSelections' ],
+    filters: [
+      { name: 'Zip (*.zip)', extensions: ['zip'] }
+    ]
+  }, (files) => {
+    if (files) {
+      event.returnValue = files;
+    } else {
+      event.returnValue = null;
+    }
+  });
+});
+
 
 app.on('ready', () => {
 
   mainWindow = new BrowserWindow({width: 1010, height: 600});
-  mainWindow.loadURL('file://' + __dirname + '/pages/Index.html#/typearea');
+  mainWindow.loadURL('file://' + __dirname + '/pages/Index.html');
   // Open dev tools
   //mainWindow.webContents.openDevTools();
 

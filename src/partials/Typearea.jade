@@ -5,7 +5,7 @@
       .data-table-header__label
         span.fs-title
           i.mdi.mdi-account
-          | &nbsp; รายชื่อกลุ่มเป้าหมายที่ซ้ำซ้อนกับหน่วยบริการอื่น
+          | &nbsp; รายชื่อกลุ่มเป้าหมายที่ซ้ำซ้อนกับหน่วยบริการอื่น [{{ patient.length | number }} คน]
       .data-table-header__actions
         lx-text-field(label="ค้นหา", fixed-label="true", icon="magnify")
           input(type="text", ng-model="query")

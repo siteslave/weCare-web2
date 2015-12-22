@@ -7,6 +7,10 @@
     "type": "git",
     "url": "git+https://github.com/siteslave/iemr.git"
   },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . weCareDesktop --ignore=node_modules"
+  },
   "keywords": [
     "Electron",
     "quick",
@@ -21,6 +25,7 @@
   "homepage": "https://github.com/siteslave/iemr#readme",
   "dependencies": {
     "crypto-js": "^3.1.5",
+    "filesize": "^3.1.4",
     "fs-extra": "^0.26.2",
     "gulp-jshint": "^2.0.0",
     "jshint": "^2.8.0",

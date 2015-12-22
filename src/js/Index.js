@@ -6,10 +6,14 @@
       'app.Config',
       'app.Helpers',
       'app.controllers.Main',
-      'app.controllers.Typearea'
+      'app.controllers.Typearea',
+      'app.controllers.Emr',
+      'app.controllers.Uploads',
+      'app.services.Emr'
+
     ])
     .config(($stateProvider, $urlRouterProvider) => {
-      $urlRouterProvider.otherwise("/typearea");
+      $urlRouterProvider.otherwise("/");
 
       $stateProvider
         .state('main', {
@@ -22,5 +26,15 @@
           templateUrl: '../partials/Typearea.html',
           controller: 'TypeareaCtrl'
         })
-    })
+        .state('uploads', {
+          url: '/uploads',
+          templateUrl: '../partials/Uploads.html',
+          controller: 'UploadsCtrl'
+        })
+        .state('emr', {
+          url: '/emr/:cid',
+          templateUrl: '../partials/Emr.html',
+          controller: 'EmrCtrl'
+        });
+    });
 })(window, window.angular);

@@ -1,1 +1,155 @@
-h4 Emr page
+div#progress
+
+div(flex-container="row")
+  div(flex-item="4")
+    div(flex-container="row", class="card p+")
+      div(flex-item="10")
+        lx-select(ng-model="ajax.selectedPerson", placeholder="พิมพ์ชื่อ เพื่อค้นหา..",
+        filter="ajax.search(newValue, oldValue)",
+        choices="ajax.list",  loading="{{ ajax.loading }}", selection-to-model="ajax.setData(data, callback)",
+        min-length="2", allow-clear="true")
+          lx-select-selected {{ $selected.fullname }}
+          lx-select-choices [{{ $choice.cid }}] {{ $choice.fullname }}
+      div(flex-item="2")
+        br
+        button.btn.btn--m.btn--icon(ng-click='getHistory()')
+         i.mdi.mdi-magnify
+    div.padding-top-10
+    div(flex-container="row", class="card p+")
+      div(flex-item)
+        div(class="p+")
+          header.data-table-header
+            .data-table-header__label
+              span.fs-title
+                i.mdi.mdi-calendar-check
+                | &nbsp; ประวัติรับบริการ
+          table.data-table
+            tbody
+              tr(ng-repeat="s in services")
+                td
+                  span.fs-subhead {{ s.DATE_SERV }} {{ s.TIME_SERV }}
+                  br
+                  span.tc-grey-500 {{ s.HOSPCODE }} {{ s.HOSPNAME }}
+                td(style="width: 10%")
+                  button(type="button", ng-click="getCloudServiceInfo(s.HOSPCODE, s.PID, s.SEQ)", lx-ripple).btn.btn--m.btn--grey.btn--icon
+                    i.mdi.mdi-trending-neutral
+
+  div(flex-item="8", style="padding-top: 0; padding-left: 10px;")
+    div(class="card p+")
+      span.fs-title.display-block.mb
+        i.mdi.mdi-weather-cloudy
+        | &nbsp; ข้อมูลการรับบริการ
+      //div.divider.divider--dark
+    div.padding-top-10
+    div(class="card")
+      lx-tabs(active-tab="0", links-tc="light" links-bgc="indigo-500" indicator="pink-500" no-divider="true" z-depth="1")
+        lx-tab(heading="ข้อมูลรับบริการ")
+          div(class="p+")
+            div(flex-container="row", flex-gutter="24")
+              div(flex-item="2")
+                lx-text-field(label="วันที่", disabled="true")
+                  input(type="text", ng-model="service.date_serv", ng-disabled="true")
+              div(flex-item="2")
+                lx-text-field(label="เวลา", disabled="true")
+                  input(type="text", ng-model="service.time_serv", ng-disabled="true")
+              div(flex-item="8")
+                lx-text-field(label="ประเภทการมา", disabled="true")
+                  input(type="text", ng-model="service.typein", ng-disabled="true")
+
+            div(flex-container="row", flex-gutter="24")
+              div(flex-item="12")
+                lx-text-field(label="อาการแรกรับ (CC)", disabled="true")
+                  input(type="text", ng-model="service.cc", ng-disabled="true")
+            div(flex-container="row", flex-gutter="24")
+              div(flex-item="7")
+                lx-text-field(label="สิทธิการรักษา", disabled="true")
+                  input(type="text", ng-model="service.pttype_name", ng-disabled="true")
+              div(flex-item="5")
+                lx-text-field(label="รหัส", disabled="true")
+                  input(type="text", ng-model="service.pttype_code", ng-disabled="true")
+            div(flex-container="row", flex-gutter="24")
+              div(flex-item="2")
+                lx-text-field(label="ความดัน", disabled="true")
+                  input(type="text", ng-model="service.bp", ng-disabled="true")
+              div(flex-item="2")
+                lx-text-field(label="อุณหภูมิ", disabled="true")
+                  input(type="text", ng-model="service.btemp", ng-disabled="true")
+              div(flex-item="2")
+                lx-text-field(label="PR", disabled="true")
+                  input(type="text", ng-model="service.pr", ng-disabled="true")
+        lx-tab(heading="การวินิจฉัย")
+          div(class="p+")
+            table.data-table
+              thead
+                tr
+                  th(style="width: 10%;") #
+                  th(style="width: 10%;") รหัส
+                  th(style="width: 70%;") ชื่อการวินิจฉัย
+                  th(style="width: 10%;") Type
+              tbody
+                tr(ng-repeat="d in diagnosis")
+                  td(style="width: 10%;")
+                    strong(ng-if="d.diag_type == '1'") {{ $index + 1 }}
+                    span(ng-if="d.diag_type != '1'") {{ $index + 1 }}
+                  td(style="width: 10%;")
+                    strong(ng-if="d.diag_type == '1'") {{ d.diag_code }}
+                    span(ng-if="d.diag_type != '1'") {{ d.diag_code }}
+                  td(style="width: 70%;")
+                    strong(ng-if="d.diag_type == '1'") {{ d.diag_name }}
+                    span(ng-if="d.diag_type != '1'") {{ d.diag_name }}
+                  td(style="width: 10%;")
+                    strong(ng-if="d.diag_type == '1'") {{ d.diag_type }}
+                    span(ng-if="d.diag_type != '1'") {{ d.diag_type }}
+
+        lx-tab(heading="ยาและเวชภัณฑ์")
+          div(class="p+")
+            table.data-table
+              thead
+                tr
+                  th(style="width: 10%;") #
+                  th(style="width: 50%;") ชื่อเวชภัณฑ์ยา
+                  th(style="width: 10%;") ราคาทุน
+                  th(style="width: 10%;") ราคาขาย
+                  th(style="width: 10%;") จำนวน
+                  th(style="width: 10%;") เป็นเงิน
+
+              tbody
+                tr(ng-repeat="d in drugs")
+                  td(style="width: 10%;") {{ $index + 1}}
+                  td(style="width: 50%;") {{ d.dname }}
+                  td(style="width: 10%;") {{ d.cost | number : 2}}
+                  td(style="width: 10%;") {{ d.price | number : 2}}
+                  td(style="width: 10%;") {{ d.amount | number : 2}}
+                  td(style="width: 10%;") {{ d.total | number : 2}}
+        lx-tab(heading="หัตถการ")
+          div(class="p+")
+            table.data-table
+              thead
+                tr
+                  th(style="width: 10%;") #
+                  th(style="width: 10%;") รหัส
+                  th(style="width: 65%;") ชื่อหัตถการ
+                  th(style="width: 15%;") ราคา
+              tbody
+                tr(ng-repeat="p in procedures")
+                  td(style="width: 10%;") {{ $index + 1}}
+                  td(style="width: 10%;") {{ p.proced_code }}
+                  td(style="width: 65%;") {{ p.proced_name }}
+                  td(style="width: 15%;") {{ p.proced_price | number }}
+        //lx-tab(heading="ค่าใช้จ่าย")
+        //  p Income
+        lx-tab(heading="ผล LAB")
+          div(class="p+")
+            table.data-table
+              thead
+                tr
+                  th(style="width: 10%;") #
+                  th(style="width: 10%;") รหัส
+                  th(style="width: 65%;") รายการ
+                  th(style="width: 15%;") ผล
+              tbody
+                tr(ng-repeat="l in labs")
+                  td(style="width: 10%;") {{ $index + 1}}
+                  td(style="width: 10%;") {{ l.lab_code }}
+                  td(style="width: 65%;") {{ l.lab_name }}
+                  td(style="width: 15%;") {{ l.lab_result }}

@@ -8,7 +8,7 @@
       getTypearea: (db) => {
         var q = $q.defer();
         db('house_regist_type')
-          .select('house_regist_type_name', 'house_regist_type_id')
+          .select('house_regist_type_name', 'house_regist_type_id', 'export_code')
           .then(function (rows) {
             q.resolve(rows);
           })
@@ -58,10 +58,15 @@
       },
       getDuplicatedList: (hospcode) => {
         let q = $q.defer();
+        let params = {};
+        params._key = config.cloud.key;
+        params._hospcode = config.cloud.hospcode;
+        params.hospcode = hospcode;
+
         let options = {
           url: cloudUrl + '/typearea',
           method: 'POST',
-          data: { hospcode: hospcode }
+          data: params
         };
 
         $http(options)
@@ -76,10 +81,15 @@
 
       getDuplicatedDetail: (cid) => {
         var q = $q.defer();
+        let params = {};
+        params._key = config.cloud.key;
+        params._hospcode = config.cloud.hospcode;
+        params.cid = cid;
+
         let options = {
           url: `${cloudUrl}/detail`,
           method: 'POST',
-          data: {cid: cid}
+          data: params
         };
 
         $http(options)
@@ -94,15 +104,48 @@
 
       doReserve: (cid, hospcode) => {
         var q = $q.defer();
+
+        let params = {};
+        params._key = config.cloud.key;
+        params._hospcode = config.cloud.hospcode;
+        params.hospcode = hospcode;
+        params.cid = cid;
+
         let options = {
           url: `${cloudUrl}/reserve`,
           method: 'POST',
-          data: {cid: cid, hospcode: hospcode}
+          data: params
         };
 
         $http(options)
           .then((res) => {
             q.resolve(res.data)
+          }, (err) => {
+            q.reject(err)
+          });
+
+        return q.promise;
+      },
+
+      changeCloudTypeArea: (hospcode, cid, typearea) => {
+        var q = $q.defer();
+
+        let params = {};
+        params._key = config.cloud.key;
+        params._hospcode = config.cloud.hospcode;
+        params.hospcode = hospcode;
+        params.cid = cid;
+        params.typearea = typearea;
+
+        let options = {
+          url: `${cloudUrl}/change-typearea`,
+          method: 'POST',
+          data: params
+        };
+
+        $http(options)
+          .then((res) => {
+            q.resolve()
           }, (err) => {
             q.reject(err)
           });
