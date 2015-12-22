@@ -1,8 +1,11 @@
 angular.module('app.controllers.Main', ['app.services.Main'])
-  .controller('MainCtrl', ($scope, MainService, LxProgressService, LxNotificationService) => {
+  .controller('MainCtrl', ($scope, $window, MainService, LxProgressService, LxNotificationService) => {
 
     $scope.showVisit = () => {
       if ($scope.serviceDate) {
+
+        $window.sessionStorage.setItem('serviceDate', $scope.serviceDate);
+
         $scope.patient = [];
         LxProgressService.linear.show('primary', '#progress');
         MainService.getService($scope.serviceDate)
@@ -17,7 +20,12 @@ angular.module('app.controllers.Main', ['app.services.Main'])
       }
     };
 
-    $scope.serviceDate = moment().format();
+    if ($window.sessionStorage.getItem('serviceDate')) {
+      $scope.serviceDate = $window.sessionStorage.getItem('serviceDate');
+    } else {
+      $scope.serviceDate = moment().format();
+    }
+
 
     // initial service
     $scope.showVisit();

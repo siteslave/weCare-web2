@@ -9,6 +9,13 @@
       $scope.person = null;
 
       $scope.getHistory = () => {
+        $scope.services = [];
+        $scope.service = [];
+        $scope.diagnosis = [];
+        $scope.procedures = [];
+        $scope.drugs = [];
+        $scope.labs = [];
+
         LxProgressService.linear.show('primary', '#progress');
 
         if ($scope.person) {
@@ -22,6 +29,12 @@
                 LxProgressService.linear.hide();
                 if (data.ok) {
                   $scope.services = data.rows;
+
+                  //get first service
+                  if (_.size($scope.services)) {
+                    console.log($scope.services[0]);
+                    $scope.getCloudServiceInfo($scope.services[0].HOSPCODE, $scope.services[0].PID, $scope.services[0].SEQ);
+                  }
                 } else {
                   LxNotificationService.error('Error: ' + JSON.stringify(data.msg));
                 }
@@ -70,7 +83,7 @@
       };
 
       if ($stateParams.cid && $stateParams.cid != 0) {
-        $scope.ajax.selectedPerson = {cid: $stateParams.cid, fullname: 'xxx xxxxx'};
+        $scope.ajax.selectedPerson = {cid: $stateParams.cid, fullname: $stateParams.fullname};
         $scope.person = $scope.ajax.selectedPerson;
         $scope.getHistory();
       }

@@ -5,7 +5,7 @@
       .data-table-header__label
         span.fs-title
           i.mdi.mdi-acount
-          | &nbsp; ทะเบียนผู้รับบริการ
+          | &nbsp; ทะเบียนผู้รับบริการ ({{ patient.length | number }} คน)
       .data-table-header__actions
         div(flex-container="row")
           div(flex-item="10")
@@ -18,21 +18,23 @@
     table.data-table
       thead
         tr
+          th(style="width: 5%") #
           th(style="width: 10%") HN
-          th ชื่อ-สกุล
+          th(style="width: 20%") ชื่อ-สกุล
           th(style="width: 10%") อายุ(ปี)
           th(style="width: 20%") สิทธิ์การรักษา
-          th(style="width: 30%") ผลการวินิจฉัย
+          th(style="width: 35%") ผลการวินิจฉัย
           th(style="width: 10%") #
       tbody
         tr(ng-if="!patient.length")
-          td(colspan="6") ไม่พบรายการ.
+          td(colspan="7") ไม่พบรายการ.
         tr(ng-repeat="p in patient", ng-if="patient.length")
+          td(style="width: 5%") {{ $index+1 }}
           td(style="width: 10%") {{ p.hn }}
-          td {{ p.fname }} {{ p.lname }}
+          td(style="width: 20%") {{ p.fullname }}
           td(style="width: 10%") {{ p.age_y }}
           td(style="width: 20%") {{ p.pttype }} {{ p.pttype_name }}
-          td(style="width: 30%") {{ p.diag_code }} {{ p.diag_name }}
+          td(style="width: 35%") {{ p.diag_code }} {{ p.diag_name }}
           td(style="width: 10%")
             lx-dropdown(position="right", from-top="true")
               button.btn.btn--m.btn--black.btn--icon(lx-ripple, lx-dropdown-toggle)
@@ -40,7 +42,7 @@
               lx-dropdown-menu
                 ul
                   li
-                    a(href="#/emr/{{ p.cid }}").dropdown-link
+                    a(href="#/emr/{{ p.cid }}/{{ p.fullname }}").dropdown-link
                       i.mdi.mdi-eye
                       span ดูประวัติการรับบริการ (EMR)
                   li

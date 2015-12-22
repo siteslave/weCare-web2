@@ -1,15 +1,14 @@
 {
-  "name": "iEMR",
+  "name": "weCare",
   "version": "1.0.0",
-  "description": "iEMR",
+  "description": "weCare",
   "main": "./app/Main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/siteslave/iemr.git"
   },
   "scripts": {
-    "start": "electron .",
-    "build": "electron-packager . weCareDesktop --ignore=node_modules"
+    "start": "electron ."
   },
   "keywords": [
     "Electron",
@@ -20,9 +19,9 @@
   "author": "Satit Rianpit",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/siteslave/iemr/issues"
+    "url": "https://github.com/siteslave/weCareDesktop/issues"
   },
-  "homepage": "https://github.com/siteslave/iemr#readme",
+  "homepage": "https://github.com/siteslave/weCareDesktop#readme",
   "dependencies": {
     "crypto-js": "^3.1.5",
     "filesize": "^3.1.4",

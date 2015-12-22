@@ -57,6 +57,10 @@ ipcMain.on('get-config-file', (event) => {
   event.returnValue = configFile;
 });
 
+ipcMain.on('quit', (event) => {
+  app.quit();
+});
+
 ipcMain.on('get-app-path', (event) => {
   event.returnValue = appPath;
 });
@@ -93,10 +97,11 @@ ipcMain.on('open-file', (event) => {
 
 app.on('ready', () => {
 
-  mainWindow = new BrowserWindow({width: 1010, height: 600});
+  mainWindow = new BrowserWindow({width: 1100, height: 600});
   mainWindow.loadURL('file://' + __dirname + '/pages/Index.html');
   // Open dev tools
   //mainWindow.webContents.openDevTools();
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;

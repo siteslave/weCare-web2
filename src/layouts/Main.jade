@@ -2,7 +2,7 @@ doctype
 html(ng-app="app")
   head
     meta(charset="utf-8")
-    title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ
+    title โปรแกรมบริหารจัดการข้อมูลด้านสุขภาพ (weCare)
 
     //- Main Scripts
     script(src="../js/App.js")
@@ -20,7 +20,7 @@ html(ng-app="app")
       .toolbar__left(class="mr+++")
         a(href="./Index.html", lx-ripple).btn.btn--l.btn--white.btn--icon
           i.mdi.mdi-windows
-      span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (iEMR)
+      span.toolbar__label.fs-title ระบบติดตามข้อมูลสุขภาพ (weCare)
       
       .toolbar__right
         lx-dropdown(position="right", from-top)
@@ -53,10 +53,5 @@ html(ng-app="app")
                 a(href="./Index.html#/uploads").dropdown-link
                   i.mdi.mdi-cloud-upload
                   span อัปโหลด 43 แฟ้ม
-              
-              li
-                a(href="#/settings").dropdown-link
-                  i.mdi.mdi-power
-                  span ออกจากโปรแกรม
 
     block content

@@ -32,7 +32,7 @@
           controller: 'UploadsCtrl'
         })
         .state('emr', {
-          url: '/emr/:cid',
+          url: '/emr/:cid/:fullname',
           templateUrl: '../partials/Emr.html',
           controller: 'EmrCtrl'
         });

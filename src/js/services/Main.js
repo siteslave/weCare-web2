@@ -11,7 +11,7 @@ angular.module('app.services.Main', [])
       var date = date ? moment(date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
 
       var sql = `select (select hospitalcode from opdconfig limit 1) as hospcode, p.person_id as pid,
-      o.vstdate, o.hn, o.vn, p.pname, p.fname, p.lname, p.cid,
+      o.vstdate, o.hn, o.vn, concat(p.pname, p.fname, " ", p.lname) as fullname, p.cid,
       od.icd10 as diag_code, icd.name as diag_name, o.pttype, ptt.name as pttype_name,
       timestampdiff(year, p.birthdate, o.vstdate) as age_y
       from ovst as o
