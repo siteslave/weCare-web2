@@ -23,11 +23,8 @@
   },
   "homepage": "https://github.com/siteslave/weCareDesktop#readme",
   "dependencies": {
-    "crypto-js": "^3.1.5",
     "filesize": "^3.1.4",
     "fs-extra": "^0.26.2",
-    "gulp-jshint": "^2.0.0",
-    "jshint": "^2.8.0",
     "knex": "^0.9.0",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",

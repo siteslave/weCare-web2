@@ -83,6 +83,7 @@ angular.module('app.controllers.Typearea', ['app.services.Typearea'])
         LxNotificationService.error('Error: ' + JSON.stringify(data.msg));
       }
     }, (err) => {
+      LxNotificationService.error('ไม่สามารถเชื่อมต่อกับ Server ได้ : ' + JSON.stringify(err));
       console.log(err);
     });
 

@@ -8,7 +8,7 @@ let moment = require('moment');
 let request = require('request');
 
 angular.module('app.controllers.Uploads', [])
-  .controller('UploadsCtrl', ($scope, Config, LxNotificationService) => {
+  .controller('UploadsCtrl', ($scope, Config, LxNotificationService, LxProgressService) => {
     let _files = [];
     $scope.files = [];
 
@@ -44,20 +44,31 @@ angular.module('app.controllers.Uploads', [])
           _key: config.cloud.key
         };
 
+        LxProgressService.linear.show('primary', '#progress');
+
         request.post({
           url: url,
           formData: formData
         }, function (err, res, body) {
-          var result = JSON.parse(body);
-          if (result.ok) {
-            LxNotificationService.success('อัปโหลดไฟล์เสร็จเรียบร้อยแล้ว');
-            $scope.files = [];
+          if (err) {
+            LxNotificationService.error('Error: ' + JSON.stringify(err));
+            LxProgressService.linear.hide();
           } else {
-            LxNotificationService.error('Error: ' + JSON.stringify(result.msg))
+            var result = JSON.parse(body);
+            if (result.ok) {
+              LxNotificationService.success('อัปโหลดไฟล์เสร็จเรียบร้อยแล้ว');
+              $scope.files = [];
+              LxProgressService.linear.hide();
+            } else {
+              LxNotificationService.error('Error: ' + JSON.stringify(result.msg));
+              LxProgressService.linear.hide();
+            }
           }
+
         });
       } else {
-        LxNotificationService.error('กรุณาเลือกไฟล์ที่ต้องการอัปโหลด')
+        LxNotificationService.error('กรุณาเลือกไฟล์ที่ต้องการอัปโหลด');
+        LxProgressService.linear.hide();
       }
 
     };
